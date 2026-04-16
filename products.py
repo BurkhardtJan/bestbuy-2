@@ -14,6 +14,13 @@ class Product:
         self.price = price
         self.quantity = quantity
         self.active = True
+        self.promotion = False
+
+    def set_promotion(self, promotion):
+        """
+        Sets the promotion.
+        """
+        self.promotion = promotion
 
     def get_quantity(self) -> int:
         """
@@ -54,7 +61,11 @@ class Product:
         """
         Prints the product.
         """
-        print(f"{self.name}, Price: ${self.price}, Quantity: {self.quantity}")
+        if self.promotion:
+            print(
+                f"{self.name}, Price: ${self.price}, Quantity: {self.quantity}, promotion: {self.promotion.promotion_text}")
+        else:
+            print(f"{self.name}, Price: ${self.price}, Quantity: {self.quantity}")
 
     def buy(self, quantity) -> float:
         """
@@ -62,7 +73,10 @@ class Product:
         """
         if self.quantity >= quantity and self.is_active():
             self.set_quantity(quantity)
-            return self.price * quantity
+            if self.promotion:
+                return self.promotion.apply_promotion(self, quantity)
+            else:
+                return self.price * quantity
         else:
             raise ValueError("Error while making order! Quantity larger than what exists")
 
@@ -80,13 +94,19 @@ class NonStockedProduct(Product):
         """
         Prints the product.
         """
-        print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited")
+        if self.promotion:
+            print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited, promotion: {self.promotion.promotion_text}")
+        else:
+            print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited")
 
     def buy(self, quantity) -> float:
         """
         Buys the product.
         """
-        return self.price * quantity
+        if self.promotion:
+            return self.promotion.apply_promotion(self, quantity)
+        else:
+            return self.price * quantity
 
 
 class LimitedProduct(Product):
@@ -103,7 +123,11 @@ class LimitedProduct(Product):
         """
         Prints the product.
         """
-        print(f"{self.name}, Price: ${self.price}, Limited to {self.maximum} per order!")
+        if self.promotion:
+            print(
+                f"{self.name}, Price: ${self.price}, Limited to {self.maximum} per order!, promotion: {self.promotion.promotion_text}")
+        else:
+            print(f"{self.name}, Price: ${self.price}, Limited to {self.maximum} per order!")
 
     def buy(self, quantity) -> float:
         """
