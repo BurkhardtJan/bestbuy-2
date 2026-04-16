@@ -57,15 +57,15 @@ class Product:
         """
         self.active = False
 
-    def show(self):
+    def __str__(self):
         """
         Prints the product.
         """
+        infos = f"{self.name}, Price: ${self.price}, Quantity: {self.quantity}"
         if self.promotion:
-            print(
-                f"{self.name}, Price: ${self.price}, Quantity: {self.quantity}, promotion: {self.promotion.promotion_text}")
+            return infos + f", promotion: {self.promotion.promotion_text}"
         else:
-            print(f"{self.name}, Price: ${self.price}, Quantity: {self.quantity}")
+            return infos
 
     def buy(self, quantity) -> float:
         """
@@ -90,14 +90,15 @@ class NonStockedProduct(Product):
     def __init__(self, name, price):
         super().__init__(name, price, quantity=0)
 
-    def show(self):
+    def __str__(self):
         """
         Prints the product.
         """
+        infos =  f"{self.name}, Price: ${self.price}, Quantity: Unlimited"
         if self.promotion:
-            print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited, promotion: {self.promotion.promotion_text}")
+            return infos + f", promotion: {self.promotion.promotion_text}"
         else:
-            print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited")
+            return infos
 
     def buy(self, quantity) -> float:
         """
@@ -119,15 +120,15 @@ class LimitedProduct(Product):
         super().__init__(name, price, quantity)
         self.maximum = maximum
 
-    def show(self):
+    def __str__(self):
         """
         Prints the product.
         """
+        infos = f"{self.name}, Price: ${self.price}, Limited to {self.maximum} per order!"
         if self.promotion:
-            print(
-                f"{self.name}, Price: ${self.price}, Limited to {self.maximum} per order!, promotion: {self.promotion.promotion_text}")
+            return infos +  f", promotion: {self.promotion.promotion_text}"
         else:
-            print(f"{self.name}, Price: ${self.price}, Limited to {self.maximum} per order!")
+            return infos
 
     def buy(self, quantity) -> float:
         """

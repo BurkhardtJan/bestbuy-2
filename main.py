@@ -19,7 +19,7 @@ def list_products(my_store):
     print("------")
     i = 1
     for product in my_store.get_all_products():
-        print(f"{i}. ", end=""), product.show()
+        print(f"{i}. ", product)
         i += 1
     print("------")
 
