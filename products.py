@@ -67,16 +67,49 @@ class Product:
             raise ValueError("Error while making order! Quantity larger than what exists")
 
 
-if __name__ == '__main__':
-    bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-    mac = Product("MacBook Air M2", price=1450, quantity=100)
+class NonStockedProduct(Product):
+    """
+    Represents a non-physical product in the store.
+    Quantities always zero.
+    """
 
-    print(bose.buy(50))
-    print(mac.buy(100))
-    print(mac.is_active())
+    def __init__(self, name, price):
+        super().__init__(name, price, quantity=0)
 
-    bose.show()
-    mac.show()
+    def show(self):
+        """
+        Prints the product.
+        """
+        print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited")
 
-    bose.set_quantity(1000)
-    bose.show()
+    def buy(self, quantity) -> float:
+        """
+        Buys the product.
+        """
+        return self.price * quantity
+
+
+class LimitedProduct(Product):
+    """
+    Represents a limited product in the store.
+    Only a certain amount is allowed to be bought.
+    """
+
+    def __init__(self, name, price, quantity, maximum):
+        super().__init__(name, price, quantity)
+        self.maximum = maximum
+
+    def show(self):
+        """
+        Prints the product.
+        """
+        print(f"{self.name}, Price: ${self.price}, Limited to {self.maximum} per order!")
+
+    def buy(self, quantity) -> float:
+        """
+        Buys the product.
+        """
+        if quantity > self.maximum:
+            raise ValueError("Error while making order! Quantity larger than limit!")
+        else:
+            return super().buy(quantity)
