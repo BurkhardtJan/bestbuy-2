@@ -67,18 +67,8 @@ class Store:
                     all_items.append(item)
             new_store = Store(products=all_items)
             return new_store
+        else:
+            return NotImplemented
 
     def __str__(self):
         return f"Store contains: {[str(p) for p in self.products]}"
-
-
-if __name__ == "__main__":
-    product_list = [Product("MacBook Air M2", price=1450, quantity=100),
-                    Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                    Product("Google Pixel 7", price=500, quantity=250),
-                    ]
-
-    best_buy = Store(product_list)
-    products = best_buy.get_all_products()
-    print(best_buy.get_total_quantity())
-    print(best_buy.order([(products[0], 1), (products[1], 2)]))

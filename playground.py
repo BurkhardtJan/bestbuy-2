@@ -19,3 +19,4 @@ if __name__=="__main__":
     print(best_buy)
     double_store = best_buy + new_store
     print(double_store)
+    print(best_buy)
