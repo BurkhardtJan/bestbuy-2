@@ -31,7 +31,7 @@ class Store:
         """
         total = 0
         for product in self.products:
-            total += product.get_quantity()
+            total += product.quantity
         return total
 
     def get_all_products(self) -> list[Product]:
@@ -50,6 +50,26 @@ class Store:
         for product, quantity in shopping_list:
             total += product.buy(quantity)
         return total
+
+    def __contains__(self, item):
+        return item in self.products
+
+    def __getitem__(self, item):
+        return self.products.index(item)
+
+    def __add__(self, other):
+        if isinstance(other, Store):
+            all_items = list(self.products)
+            for item in other.products:
+                if item in all_items:
+                    all_items[all_items.index(item)].quantity += item.quantity
+                else:
+                    all_items.append(item)
+            new_store = Store(products=all_items)
+            return new_store
+
+    def __str__(self):
+        return f"Store contains: {[str(p) for p in self.products]}"
 
 
 if __name__ == "__main__":

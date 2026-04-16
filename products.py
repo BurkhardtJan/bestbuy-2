@@ -10,31 +10,60 @@ class Product:
             raise ValueError("Price cannot be negative.")
         if quantity < 0:
             raise ValueError("Initial quantity cannot be negative.")
-        self.name = name
-        self.price = price
-        self.quantity = quantity
-        self.active = True
-        self.promotion = False
+        self._name = name
+        self._price = price
+        self._quantity = quantity
+        self._active = True
+        self._promotion = False
 
-    def set_promotion(self, promotion):
-        """
-        Sets the promotion.
-        """
-        self.promotion = promotion
+    @property
+    def name(self):
+        return self._name
 
-    def get_quantity(self) -> int:
-        """
-        Returns the quantity of the product.
-        """
-        return self.quantity
+    @property
+    def price(self):
+        return self._price
+
+    @property
+    def quantity(self):
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, quantity):
+        self._quantity = quantity
 
     def set_quantity(self, quantity):
         """
-        Sets the quantity of the product.
+        Sets the quantity of the product and deactivates if quantity < 0.
         """
-        self.quantity -= quantity
+        self.quantity = quantity
         if (self.quantity <= 0):
             self.deactivate()
+
+    @property
+    def promotion(self):
+        return self._promotion
+
+    @promotion.setter
+    def promotion(self, promotion):
+        """
+        Sets the promotion.
+        """
+        self._promotion = promotion
+
+    def set_promotion(self, promotion):
+        """
+        Alias for setter to maintain exersice calls
+        """
+        self.promotion = promotion
+
+    @property
+    def active(self):
+        return self._active
+
+    @active.setter
+    def active(self, status):
+        self._active = status
 
     def is_active(self) -> bool:
         """
@@ -72,13 +101,25 @@ class Product:
         Buys the product. Handles problems.
         """
         if self.quantity >= quantity and self.is_active():
-            self.set_quantity(quantity)
+            self.set_quantity(self.quantity - quantity)
             if self.promotion:
                 return self.promotion.apply_promotion(self, quantity)
             else:
                 return self.price * quantity
         else:
             raise ValueError("Error while making order! Quantity larger than what exists")
+
+    def __gt__(self, other):
+        return self.price > other.price
+
+    def __lt__(self, other):
+        return self.price < other.price
+
+    def __ge__(self, other):
+        return self.price >= other.price
+
+    def __le__(self, other):
+        return self.price <= other.price
 
 
 class NonStockedProduct(Product):
@@ -94,7 +135,7 @@ class NonStockedProduct(Product):
         """
         Prints the product.
         """
-        infos =  f"{self.name}, Price: ${self.price}, Quantity: Unlimited"
+        infos = f"{self.name}, Price: ${self.price}, Quantity: Unlimited"
         if self.promotion:
             return infos + f", promotion: {self.promotion.promotion_text}"
         else:
@@ -126,7 +167,7 @@ class LimitedProduct(Product):
         """
         infos = f"{self.name}, Price: ${self.price}, Limited to {self.maximum} per order!"
         if self.promotion:
-            return infos +  f", promotion: {self.promotion.promotion_text}"
+            return infos + f", promotion: {self.promotion.promotion_text}"
         else:
             return infos
 

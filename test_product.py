@@ -34,7 +34,7 @@ def test_product_becomes_inactive():
 def test_buy_modifies_quantity():
     test_product = products.Product("Test", price=250, quantity=500)
     test_product.buy(300)
-    assert test_product.get_quantity() == 200
+    assert test_product.quantity == 200
 
 
 def test_buy_too_many_quantity():
