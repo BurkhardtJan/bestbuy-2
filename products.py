@@ -18,18 +18,22 @@ class Product:
 
     @property
     def name(self):
+        """Returns the product name."""
         return self._name
 
     @property
     def price(self):
+        """Returns the product price."""
         return self._price
 
     @property
     def quantity(self):
+        """Returns the product quantity."""
         return self._quantity
 
     @quantity.setter
     def quantity(self, quantity):
+        """Sets the product quantity."""
         self._quantity = quantity
 
     def set_quantity(self, quantity):
@@ -42,6 +46,7 @@ class Product:
 
     @property
     def promotion(self):
+        """Returns the product promotion."""
         return self._promotion
 
     @promotion.setter
@@ -59,10 +64,12 @@ class Product:
 
     @property
     def active(self):
+        """Returns the product active status."""
         return self._active
 
     @active.setter
     def active(self, status):
+        """Sets the product active status."""
         self._active = status
 
     def is_active(self) -> bool:
@@ -110,15 +117,19 @@ class Product:
             raise ValueError("Error while making order! Quantity larger than what exists")
 
     def __gt__(self, other):
+        """Compares the products by price (>)."""
         return self.price > other.price
 
     def __lt__(self, other):
+        """Compares the products by price (<)."""
         return self.price < other.price
 
     def __ge__(self, other):
+        """Compares the products by price (>=)."""
         return self.price >= other.price
 
     def __le__(self, other):
+        """Compares the products by price (<=)."""
         return self.price <= other.price
 
 

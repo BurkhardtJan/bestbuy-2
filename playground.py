@@ -1,6 +1,5 @@
 import products
 import store
-import promotions
 
 if __name__=="__main__":
     # setup initial stock of inventory

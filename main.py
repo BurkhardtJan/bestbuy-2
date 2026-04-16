@@ -38,7 +38,7 @@ def make_order(my_store):
     Handels inputs for orders and the order itself.
     Negative amount interpreted as return, because same behavior in the demo.
     """
-    list_products(best_buy)
+    list_products(my_store)
     print("When you want to finish order, enter empty text.")
     shopping_list = []
     all_products = my_store.get_all_products()
