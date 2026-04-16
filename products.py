@@ -37,7 +37,7 @@ class Product:
         Sets the quantity of the product and deactivates if quantity < 0.
         """
         self.quantity = quantity
-        if (self.quantity <= 0):
+        if self.quantity <= 0:
             self.deactivate()
 
     @property
